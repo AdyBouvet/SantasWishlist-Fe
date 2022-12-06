@@ -1,23 +1,22 @@
-import logo from './logo.svg';
 import './App.css';
+import GiftPerson from './components/gift-person/GiftPerson';
+import GiftScreen from './components/gift-screen/GiftScreen'
+import PersonScreen from './components/person-screen/PersonScreen';
+import MainPage from './pages/main-page'
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {
+        <PersonScreen/>
+        //<GiftScreen/>
+      }
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <GiftPerson />
     </div>
   );
 }
