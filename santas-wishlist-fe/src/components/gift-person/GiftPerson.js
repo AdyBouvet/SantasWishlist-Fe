@@ -3,6 +3,7 @@ import { Spinner } from   "react-bootstrap";
 import NameDropdown from "../name-dropdown/NameDropdown"
 import GiftCalls from "../../services/gift";
 import PersonCalls from "../../services/person";
+import '../.././App.css'
 
 export default function GiftPerson() {
     const [giftName, setGiftName] = useState('Select name')
@@ -47,7 +48,7 @@ export default function GiftPerson() {
     }, [])
 
     return (
-        <div>
+        <div className="OuterContainer">
             {loading && <Spinner animation="border" variant="primary" />}
             {persons && <NameDropdown name={personName} persons={persons} setName={getPerson}/>}
             {gifts && <NameDropdown name={giftName} persons={gifts} setName={getGift}/>}

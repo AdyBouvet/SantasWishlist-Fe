@@ -1,10 +1,11 @@
 import api from "./api";
 
-const GetPerson = (person) => api.get("/Persons/" + person)
-    .then((response) => response.data);
+const GetPerson = (person) => api.get("/persons/" + person)
+    .then((response) => response.data)
+    .catch(() => "danger");
 
-const SetPerson = (Person) => api.post("/Person" + Person)
-    .then((response) =>
+const SetPerson = (person) => api.post("/persons", person)
+    .then(() =>
         "success"
     )
     .catch((error) => {
@@ -12,10 +13,11 @@ const SetPerson = (Person) => api.post("/Person" + Person)
         return "danger"
     })
 
-const GetPersons = () => api.get("/Persons")
-    .then((response) => response.data);
+const GetPersons = () => api.get("/persons")
+    .then((response) => response.data)
+    .catch(() => "danger");
 
-const DeletePerson = (name) => api.delete("/Persons?name=" + name)
+const DeletePerson = (name) => api.delete("/persons?name=" + name)
     .then(() => "success")
     .catch(() => "danger");
 

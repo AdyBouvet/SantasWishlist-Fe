@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react"
-import { Button, Spinner } from   "react-bootstrap";
+import { Button, Spinner } from "react-bootstrap";
 import NameDropdown from "../name-dropdown/NameDropdown"
 import PersonCalls from "../../services/person";
+import PersonInput from "../person-input/PersonInput";
+import ResponseAlert from "../response-alert/ResponseAlert";
 
 export default function PersonScreen(props) {
 
@@ -9,11 +11,15 @@ export default function PersonScreen(props) {
     const [persons, setPersons] = useState([])
     const [person, setPerson] = useState(null)
     const [loading, setLoading] = useState(false)
+    const [apiResponse, setApiResponse] = useState("Default")
 
     function getPersons() {
         setLoading(true)
         PersonCalls.GetPersons().then(a => {
-            setPersons(a)
+            if (a != "danger"){
+                setPersons(a)
+            }
+            else {setApiResponse("danger")}
             setLoading(false)
         })
     }
@@ -28,11 +34,13 @@ export default function PersonScreen(props) {
     }
 
     function deletePerson() {
+        setLoading(true)
         if (name != 'Select name') {
             PersonCalls.DeletePerson(name).then(() => {
                 getPersons()
                 setPerson(null)
                 setName('Select name')
+                setLoading(false)
             })
         }
     }
@@ -42,13 +50,21 @@ export default function PersonScreen(props) {
     }, [])
 
     return (
-        <div>
-            {loading && <Spinner animation="border" variant="primary" />}
-            <NameDropdown name={name} persons={persons} setName={getPerson}/>
-            {person && <p>Name: {person.name}</p>}
-            {person && <p>Country: {person.country}</p>}
-            {person && <p>Kindness rating: {person.kindnessRating}</p>}
-            {person && <Button onClick={() => deletePerson()} variant="danger">Delete</Button>}
+        <div className="Container">
+            <div className="OuterContainer">
+                {persons && <NameDropdown name={name} persons={persons} setName={getPerson} />}
+                {loading && <Spinner animation="border" variant="primary" />}
+                {apiResponse == "danger" &&  <ResponseAlert type={apiResponse}></ResponseAlert>}
+                {person && <div>
+                    <p>Name: {person.name}</p>
+                    <p>Country: {person.country}</p>
+                    <p>Kindness rating: {person.kindnessRating}</p>
+                    <Button onClick={() => deletePerson()} variant="danger">Delete</Button>
+                </div>}
+            </div>
+            <div className="OuterContainer">
+                <PersonInput />
+            </div>
         </div>
     )
 }
